@@ -1,0 +1,65 @@
+defaultTenant: cic
+logging:
+  level:
+    org:
+      springframework: INFO
+      apache:
+        http: INFO
+      hibernate:
+        SQL: INFO
+
+server:
+  port: 8080
+  servlet:
+    contextPath: /api/procurement
+
+multi-data-source:
+  enabled: false
+
+spring:
+  sleuth:
+    propagation:
+      type: w3c,b3
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  application:
+    name: Procurement Service ..
+  datasource:
+    platform: h2
+    url: jdbc:h2:~/testingDatabase66;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true
+
+    jpa:
+      properties:
+        hibernate:
+          show_sql: true
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+    open-in-view: false
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: db.changelog/changelog.yml
+    url: jdbc:h2:~/testingDatabase66
+    user: sa
+    password:
+  quartz:
+    job-store-type: jdbc
+    properties:
+      org:
+        quartz:
+          threadPool:
+            threadCount: 5
+
+logging.pattern.level: "[${spring.application.name} - %d{MMM dd HH:mm:ss}] : %highlight(%-5level) - %magenta([%thread]) - %green([requestId: %mdc{traceId}, span_id: %mdc{spanId}]) - %yellow(%logger{40}.%M\\(%class{0}.java:%line\\)) - %message%n"
+
+
+allowed-origins: http://dev-erp.dpworld.com
+allowed-methods: GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD
